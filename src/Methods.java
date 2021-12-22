@@ -13,6 +13,7 @@ public class Methods {
 	private double timeInMonths;
 	private double balance;
 	private double priceAfterDeposit;
+	private int totalMonths=0;
 	
 	
 	public void input() {
@@ -85,13 +86,13 @@ public class Methods {
 			double interest = calculateMonthlyInterest() * balance;
 			double principal = calculateMonthlyPayment() - interest;
 			balance = balance - principal;
+			totalMonths++;
 			
 			System.out.println((int)i+"\t\t\t\t"+Math.floor(interest)+"\t\t\t"+Math.floor(principal)+"\t\t\t"+ Math.floor(balance));
 			sum+=interest;
 			}
 		System.out.println("--------------------------------------------------------");
 		System.out.println("Total interest paid will be "+Math.floor(sum));
+		System.out.println("Total number of months will be: "+totalMonths);
 	}
-	
-	
 }
