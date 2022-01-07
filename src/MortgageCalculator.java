@@ -27,6 +27,7 @@ public class MortgageCalculator {
 	    System.out.println("_________________________________________________________________________________________");
 	    System.out.println("Monthly only the basic payment is "+Math.floor(account1.calculateMonthlyPayment())+" $");
 	    System.out.println("Total monthly payment is "+Math.floor(account1.calculateTotalMonthlyPayment())+" $");
+		account1.print();
 	}
 }
 
