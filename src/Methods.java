@@ -4,7 +4,6 @@ public class Methods {
 	
 	private double deposit;
 	private double YearlyInterest;
-	private double PMI;
 	private double HOA;
 	private double additionalPrincipal;
 	final double VATAXRATE=0.01098;
@@ -18,11 +17,24 @@ public class Methods {
 	
 	public void input() {
 		Scanner input= new Scanner(System.in);
+
 		System.out.println("Enter the home price");
 		int x1=1;
-		do{try {this.price=input.nextDouble(); if (price<0) {throw new InvalidNumberException();}x1=2;} 
-		catch(InvalidNumberException e) {System.out.println(e.getMessage());}}while(x1==1);
-	    System.out.println("Enter the deposit amount");
+		do{
+			try {
+				this.price=input.nextDouble();
+				if (price<0) {
+					throw new InvalidNumberException();
+				}
+				x1=2;
+			}
+		    catch(InvalidNumberException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		while(x1==1);
+
+		System.out.println("Enter the deposit amount");
 	    int x2=1;
 		do{try {this.deposit=input.nextDouble(); if (deposit<0) {throw new InvalidNumberException();}x2=2;} 
 		catch(InvalidNumberException e) {System.out.println(e.getMessage());}}while(x2==1);
@@ -34,10 +46,6 @@ public class Methods {
 		int x4=1;
 		do{try {this.timeInYears=input.nextDouble(); if (timeInYears<0) {throw new InvalidNumberException();}x4=2;} 
 		catch(InvalidNumberException e) {System.out.println(e.getMessage());}}while(x4==1);
-	    System.out.println("Enter the PMI amount");
-	    int x5=1;
-		do{try {this.PMI=input.nextDouble(); if (PMI<0) {throw new InvalidNumberException();}x5=2;} 
-		catch(InvalidNumberException e) {System.out.println(e.getMessage());}}while(x5==1);
 		System.out.println("Enter the monthly HOA fees");
 		int x6=1;
 		do{try {this.HOA=input.nextDouble(); if (HOA<0) {throw new InvalidNumberException();}x6=2;} 
@@ -60,20 +68,26 @@ public class Methods {
 		this.timeInMonths=timeInYears*12;
 		return timeInMonths;
 	}
-	public double calculateTaxes() {
+	public double monthlyTax() {
 		double tax=(price*VATAXRATE)/12;
 		return tax;
 	}
+	public double monthlyPMI(){
+		double pmi;
+		if(price*0.2>price-calculateBalance())
+			pmi=(calculateBalance()*0.005)/12;
+		else
+			pmi=0;
+		return pmi;
+	};
 	public double calculateMonthlyPayment() {
 		double monthlyPayment=priceAfterDeposit*((calculateMonthlyInterest()*Math.pow(1+calculateMonthlyInterest(), calculateTimeInMonths()))/(Math.pow(1+calculateMonthlyInterest(), calculateTimeInMonths())-1))+additionalPrincipal;
 		return monthlyPayment;
-	}
+	};
+
 	public double calculateTotalMonthlyPayment() {
 		double totalMonthlyPayment;
-		if (price-calculateBalance()<price*0.2) 
-			totalMonthlyPayment=calculateMonthlyPayment()+HOA+calculateTaxes()+PMI;
-		else
-			totalMonthlyPayment=calculateMonthlyPayment()+HOA+calculateTaxes();
+		totalMonthlyPayment=calculateMonthlyPayment()+HOA+monthlyTax()+monthlyPMI();
 		return totalMonthlyPayment;
 	}
 	public void print() {
@@ -87,12 +101,13 @@ public class Methods {
 			double principal = calculateMonthlyPayment() - interest;
 			balance = balance - principal;
 			totalMonths++;
-			
+
 			System.out.println((int)i+"\t\t\t\t"+Math.floor(interest)+"\t\t\t"+Math.floor(principal)+"\t\t\t"+ Math.floor(balance));
 			sum+=interest;
-			}
+		}
 		System.out.println("--------------------------------------------------------");
 		System.out.println("Total interest paid will be "+Math.floor(sum));
 		System.out.println("Total number of months will be: "+totalMonths);
-	}
-}
+
+	};
+};

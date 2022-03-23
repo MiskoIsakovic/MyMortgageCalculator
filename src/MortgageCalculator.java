@@ -13,21 +13,22 @@ public class MortgageCalculator {
 		
 		
 		
-		File file = new File("C:\\Users\\misko\\Desktop\\empty.txt");
+		File file = new File("C:\\Users\\misko\\Desktop\\MortgageData.txt");
 		PrintStream stream = null;
 		try {
 			stream = new PrintStream(file);
 		} catch (FileNotFoundException e) {
-			
 			e.printStackTrace();
 		}
 	    System.out.println("Main information is written into "+file.getAbsolutePath());
 	    System.setOut(stream);
 	    System.out.println("Here is the information about your account");
 	    System.out.println("_________________________________________________________________________________________");
-	    System.out.println("Monthly only the basic payment is "+Math.floor(account1.calculateMonthlyPayment())+" $");
-	    System.out.println("Total monthly payment is "+Math.floor(account1.calculateTotalMonthlyPayment())+" $");
 		account1.print();
+	}
+	static{
+		System.out.println("Welcome to mortgage calculator\n" +
+				"Please enter only positive numbers and interest in percentage format");
 	}
 }
 
